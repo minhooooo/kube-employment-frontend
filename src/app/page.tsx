@@ -1,61 +1,15 @@
-"use client";
-// components or pages where LoginPage is defined
-import React, { useState } from "react";
-import { Button, Input } from "@nextui-org/react";
-import { LoginAPI } from "./action";
+import React from "react";
 
 export default function Home() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  // const handleLogin = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const response = await axios.post("/api/login", {
-  //       email,
-  //       password,
-  //     });
-  //     console.log("Login successful:", response.data);
-  //     // Handle login success (e.g., redirect, store token)
-  //   } catch (error: any) {
-  //     console.error("Login failed:", error.response?.data || error.message);
-  //     // Handle login error (e.g., display error message)
-  //   }
-  // };
-
+  function showURL() {
+    return process.env.API_URL;
+  }
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <form className="w-full max-w-sm" action={LoginAPI}>
-        <div className="mb-4">
-          <Input
-            fullWidth
-            color="primary"
-            size="lg"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            name="email"
-          />
-        </div>
-        <div className="mb-6">
-          <Input
-            type="password"
-            fullWidth
-            color="primary"
-            size="lg"
-            placeholder="Password"
-            value={password}
-            onChange={(e: any) => setPassword(e.target.value)}
-            name="password"
-          />
-        </div>
-        <div className="flex items-center justify-between">
-          <Button type="submit" size="lg">
-            로그인
-          </Button>
-        </div>
-      </form>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <p>시작화면 어떻게 할까?</p>
+      <p>AWS URL = http://13.124.213.82:8080</p>
+      <p>Server Side URL</p>
+      <p>{showURL()}</p>
     </div>
   );
 }
