@@ -1,4 +1,5 @@
 "use server";
+import { redirect } from "next/navigation";
 
 export async function LoginAPI(formData: FormData) {
   const API_URL = process.env.API_URL;
@@ -33,4 +34,5 @@ export async function LoginAPI(formData: FormData) {
     // Handle error
     console.error("Error:", error);
   }
+  redirect("/");
 }
