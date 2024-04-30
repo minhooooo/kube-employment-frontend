@@ -1,6 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { Button, Input, Card, CardBody, CardHeader } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Card,
+  CardBody,
+  CardHeader,
+  Link,
+} from "@nextui-org/react";
 import { LoginAPI } from "./action";
 
 const page = () => {
@@ -42,7 +49,7 @@ const page = () => {
                 name="password"
               />
             </div>
-            <div className="flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center gap-4">
               <Button
                 type="submit"
                 className="w-full"
@@ -51,6 +58,10 @@ const page = () => {
               >
                 로그인
               </Button>
+              <div>
+                아직 회원가입을 안하셨나요? <Link href="/signup">회원가입</Link>{" "}
+                하기
+              </div>
             </div>
           </form>
         </CardBody>
