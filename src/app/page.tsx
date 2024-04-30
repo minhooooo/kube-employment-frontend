@@ -7,13 +7,13 @@ import { getJobList } from "./action";
 
 interface IJob {
   id: string;
-  index: string;
+  index: number;
   title: string;
   name: string;
   writeDate: string;
   updateDate: string;
   text: string;
-  questions: string[];
+  questions: Record<string, string>;
 }
 
 export default function Home() {

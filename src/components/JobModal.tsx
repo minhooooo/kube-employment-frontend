@@ -10,7 +10,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 
-interface IQuestion {
+interface IJob {
   id: string;
   index: number;
   title: string;
@@ -24,7 +24,8 @@ interface IQuestion {
 interface IOpen {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  data: IQuestion;
+  onOpen: () => void;
+  data: IJob;
 }
 
 const JobModal = ({ isOpen, onOpenChange, data }: IOpen) => {
