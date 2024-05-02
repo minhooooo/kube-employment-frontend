@@ -71,70 +71,68 @@ const JobPostModal = () => {
 
             <ModalBody>
               공고 이름
-              <Input
-                key={"title"}
-                value={title}
-                placeholder="공고 제목 입력"
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-              />
-              공고내용
-              <Textarea
-                id="job_detail"
-                className="w-full"
-                minRows={3}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-              />
-              <div className="flex gap-5">
-                <p className="mt-4">자기소개서 질문</p>
-                <Button
-                  color="secondary"
-                  variant="bordered"
-                  onClick={handleAddQuestion}
-                  className="mt-2"
-                >
-                  질문 추가
-                </Button>
-                <Button
-                  color="danger"
-                  variant="bordered"
-                  onClick={handleDeleteQuestion}
-                  className="mt-2"
-                >
-                  질문 삭제
-                </Button>
-              </div>
-              {questions.map((question, index) => (
-                <Textarea
-                  key={index}
-                  value={question}
+              <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                <Input
+                  isRequired
+                  key={"title"}
+                  value={title}
+                  placeholder="공고 제목 입력"
                   onChange={(e) => {
-                    const newQuestions = [...questions];
-                    newQuestions[index] = e.target.value;
-                    setQuestions(newQuestions);
+                    setTitle(e.target.value);
                   }}
-                  placeholder={`질문 ${index + 1}`}
-                  className="mb-2"
                 />
-              ))}
+                공고내용
+                <Textarea
+                  isRequired
+                  id="job_detail"
+                  className="w-full"
+                  minRows={3}
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
+                <div className="flex gap-5">
+                  <p className="mt-4">자기소개서 질문</p>
+                  <Button
+                    color="secondary"
+                    variant="bordered"
+                    onClick={handleAddQuestion}
+                    className="mt-2"
+                  >
+                    질문 추가
+                  </Button>
+                  <Button
+                    color="danger"
+                    variant="bordered"
+                    onClick={handleDeleteQuestion}
+                    className="mt-2"
+                  >
+                    질문 삭제
+                  </Button>
+                </div>
+                {questions.map((question, index) => (
+                  <Textarea
+                    key={index}
+                    isRequired
+                    value={question}
+                    onChange={(e) => {
+                      const newQuestions = [...questions];
+                      newQuestions[index] = e.target.value;
+                      setQuestions(newQuestions);
+                    }}
+                    placeholder={`질문 ${index + 1}`}
+                    className="mb-2"
+                  />
+                ))}
+                <div className="flex justify-end mt-4">
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    닫기
+                  </Button>
+                  <Button type="submit" color="primary">
+                    등록
+                  </Button>
+                </div>
+              </form>
             </ModalBody>
-            <ModalFooter>
-              <div className="flex justify-end mt-4">
-                <Button color="danger" variant="light" onPress={onClose}>
-                  닫기
-                </Button>
-                <Button
-                  type="submit"
-                  color="primary"
-                  onPress={onClose}
-                  onClick={handleSubmit}
-                >
-                  등록
-                </Button>
-              </div>
-            </ModalFooter>
           </>
         </ModalContent>
       </Modal>

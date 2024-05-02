@@ -15,7 +15,7 @@ export async function JobPostAPI(jobReqInfo: string) {
     });
 
     const responseData = await response.text();
-    return responseData;
+    return "공고가 등록되었습니다.";
   } catch (error) {
     console.error("Error:", error);
     return "공고문을 한번 더 확인해주세요. ";

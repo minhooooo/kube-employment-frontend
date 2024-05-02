@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Button, Input, Card, CardHeader, CardBody } from "@nextui-org/react";
 import { SignupAPI } from "./action";
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const [email, setEmail] = useState<string>("");
@@ -11,6 +12,22 @@ const page = () => {
   const [gpa, setGPA] = useState<string>("");
   const [totalGpa, setTotalGPA] = useState<string>("");
   const [school, setSchool] = useState<string>("");
+  const router = useRouter();
+
+  async function handleSubmit() {
+    const memberReqInfo = JSON.stringify({
+      email: email,
+      password: password,
+      name: name,
+      birthday: birthday,
+      gpa: `${gpa}/${totalGpa}`,
+      school: school,
+    });
+
+    const signupResponse = await SignupAPI(memberReqInfo);
+    alert(signupResponse);
+    router.push("/login");
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -19,10 +36,11 @@ const page = () => {
           <div className="font-extrabold text-3xl text-center">회원가입</div>
         </CardHeader>
         <CardBody>
-          <form className="w-full max-w-sm" action={SignupAPI}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4 flex flex-col gap-3">
               <Input
                 fullWidth
+                isRequired
                 variant="bordered"
                 size="lg"
                 type="email"
@@ -34,6 +52,7 @@ const page = () => {
               />
               <Input
                 type="password"
+                isRequired
                 variant="bordered"
                 fullWidth
                 size="lg"
@@ -45,6 +64,7 @@ const page = () => {
               />
               <Input
                 fullWidth
+                isRequired
                 variant="bordered"
                 size="lg"
                 label="이름"
@@ -55,6 +75,7 @@ const page = () => {
               />
               <Input
                 type="date"
+                isRequired
                 fullWidth
                 variant="bordered"
                 size="lg"
@@ -66,17 +87,19 @@ const page = () => {
               <div className="flex flex-row gap-3">
                 <Input
                   fullWidth
+                  isRequired
                   variant="bordered"
                   size="lg"
                   label="학점"
                   placeholder="학점"
-                  name="gpal"
+                  name="gpa"
                   value={gpa}
                   onChange={(e) => setGPA(e.target.value)}
                 />
 
                 <Input
                   fullWidth
+                  isRequired
                   variant="bordered"
                   size="lg"
                   label="총학점"
@@ -88,14 +111,17 @@ const page = () => {
               </div>
               <Input
                 fullWidth
+                isRequired
                 variant="bordered"
                 size="lg"
                 label="학교"
+                name="school"
                 placeholder="학교 이름 입력"
                 value={school}
                 onChange={(e) => setSchool(e.target.value)}
               />
             </div>
+
             <div className="flex items-center justify-center">
               <Button
                 type="submit"
