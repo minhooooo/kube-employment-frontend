@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { MouseEvent, useState, useContext } from "react";
 import {
   Button,
   Input,
@@ -8,11 +8,33 @@ import {
   CardHeader,
   Link,
 } from "@nextui-org/react";
-import { LoginAPI } from "./action";
+import { LoginAPI, UserAPI } from "./action";
+import { UserContext } from "../providers";
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setUserData } = useContext(UserContext);
+  const router = useRouter();
+
+  async function handleLogin(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const loginreqinfo = JSON.stringify({
+      emai: email,
+      password: password,
+    });
+    const loginResponse = await LoginAPI(loginreqinfo);
+    if (loginResponse == "로그인 성공!") {
+      const userData = await UserAPI(email);
+      setUserData(userData);
+      if (userData[0].type === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
+    }
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -21,7 +43,7 @@ const page = () => {
           <div className="font-extrabold text-3xl text-center">로그인</div>
         </CardHeader>
         <CardBody>
-          <form className="w-full max-w-sm" action={LoginAPI}>
+          <div className="w-full max-w-sm">
             <div className="mb-4">
               <Input
                 fullWidth
@@ -51,7 +73,7 @@ const page = () => {
             </div>
             <div className="flex flex-col items-center justify-center gap-4">
               <Button
-                type="submit"
+                onClick={(e) => handleLogin(e)}
                 className="w-full"
                 variant="bordered"
                 color="primary"
@@ -63,7 +85,7 @@ const page = () => {
                 하기
               </div>
             </div>
-          </form>
+          </div>
         </CardBody>
       </Card>
     </div>
