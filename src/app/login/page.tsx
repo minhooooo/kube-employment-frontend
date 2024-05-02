@@ -21,7 +21,7 @@ const page = () => {
   async function handleLogin(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     const loginreqinfo = JSON.stringify({
-      emai: email,
+      email: email,
       password: password,
     });
     const loginResponse = await LoginAPI(loginreqinfo);

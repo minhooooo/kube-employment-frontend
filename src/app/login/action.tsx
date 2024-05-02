@@ -3,6 +3,8 @@
 export async function LoginAPI(loginReqInfo: string) {
   const API_URL = process.env.API_URL;
 
+  console.log(loginReqInfo);
+
   const blob = new Blob([loginReqInfo], { type: "application/json" });
 
   const formData = new FormData();

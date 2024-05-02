@@ -22,7 +22,7 @@ const JobPostModal = () => {
   const [questions, setQuestions] = useState<string[]>([""]);
   const [questionCount, setQuestionCount] = useState(1);
   const { userData } = useContext(UserContext);
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const questionsObject: Record<string, string> = {};
     questions.forEach((question, index) => {
       questionsObject[(index + 1).toString()] = question;
@@ -35,7 +35,8 @@ const JobPostModal = () => {
       questions: questionsObject,
     });
 
-    //JobPostAPI(jobreqinfo);
+    const jobpost = await JobPostAPI(jobreqinfo);
+    alert(jobpost);
     setTitle("");
     setText("");
     setQuestionCount(1);
