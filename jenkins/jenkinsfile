@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    
+    stages() {
+        stage('git clone') {
+            steps() {
+                git 'https://github.com/minhooooo/kube-employment-frontend.git'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        
+        stage('execute sh') {
+            steps {
+                echo 'executing..'
+            }
+        }        
+    }
+}
