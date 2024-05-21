@@ -20,34 +20,44 @@ pipeline {
                 command:
                 - cat
                 tty: true
+              volumes:
+              - name: docker-socket
+                hostPath:
+                  path: /var/run/docker.sock
             """
         }
     }
     environment {
-        GIT_CREDENTIALS_ID = 'github-token' 
+        GIT_CREDENTIALS_ID = 'github-token'
     }
     
     stages {
         stage('git clone') {
             steps {
-                git credentialsId: env.GIT_CREDENTIALS_ID, branch: 'main', url: 'https://github.com/minhooooo/kube-employment-frontend.git'
+                container('jnlp') {
+                    git credentialsId: env.GIT_CREDENTIALS_ID, branch: 'main', url: 'https://github.com/minhooooo/kube-employment-frontend.git'
+                }
             }
         }
         
         stage('Build Docker Image') {
             steps {
-                script {
-                    def customImage = docker.build("kube-employment-frontend:${env.BUILD_ID}")
+                container('docker') {
+                    script {
+                        def customImage = docker.build("kube-employment-frontend:${env.BUILD_ID}")
+                    }
                 }
             }
         }
         
         stage('Test') {
             steps {
-                script {
-                    docker.image("kube-employment-frontend:${env.BUILD_ID}").inside {
-                        sh 'echo "Running tests..."'
-                        sh 'echo "image build..."'
+                container('docker') {
+                    script {
+                        docker.image("kube-employment-frontend:${env.BUILD_ID}").inside {
+                            sh 'echo "Running tests..."'
+                            sh 'echo "image build..."'
+                        }
                     }
                 }
                 echo 'Testing..'
@@ -56,13 +66,16 @@ pipeline {
         
         stage('Execute') {
             steps {
-                script {
-                    docker.image("kube-employment-frontend:${env.BUILD_ID}").inside {
-                        sh 'echo "Executing application..."'
-                        sh 'echo "testing tests..."'                    }
+                container('docker') {
+                    script {
+                        docker.image("kube-employment-frontend:${env.BUILD_ID}").inside {
+                            sh 'echo "Executing application..."'
+                            sh 'echo "testing tests..."'
+                        }
+                    }
                 }
                 echo 'executing..'
             }
-        }        
+        }
     }
 }
