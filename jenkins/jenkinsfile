@@ -1,6 +1,28 @@
 pipeline {
-    agent any
-    
+    agent {
+        kubernetes {
+            label 'jenkins-agent'
+            yaml """
+            apiVersion: v1
+            kind: Pod
+            spec:
+              containers:
+              - name: jnlp
+                image: jenkins/inbound-agent
+                args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
+              - name: docker
+                image: docker:20.10
+                command:
+                - cat
+                tty: true
+              - name: node
+                image: node:14
+                command:
+                - cat
+                tty: true
+            """
+        }
+    }
     environment {
         GIT_CREDENTIALS_ID = 'github-token' 
     }
