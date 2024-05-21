@@ -18,16 +18,11 @@ pipeline {
                 volumeMounts:
                 - name: docker-socket
                   mountPath: /var/run/docker.sock
-                - name: docker-config
-                  mountPath: /root/.docker/
               volumes:
               - name: docker-socket
                 hostPath:
                   path: /var/run/docker.sock
                   type: Socket
-              - name: docker-config
-                configMap:
-                  name: docker-config
             """
         }
     }
