@@ -50,17 +50,7 @@ pipeline {
                 }
             }
         }
-        
-        stage('Test') {
-            steps {
-                container('docker') {
-                    script {
-                        sh 'docker run --rm kube-employment-frontend:${env.BUILD_ID} echo "Running tests..."'
-                    }
-                }
-                echo 'Testing..'
-            }
-        }
+
         stage('Push to Docker Hub') {
             steps {
                 container('docker') {
