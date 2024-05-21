@@ -8,13 +8,16 @@ pipeline {
             spec:
               containers:
               - name: jnlp
-                image: jenkins/inbound-agent
+                image: jenkins/inbound-agent:latest
                 args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
               - name: docker
                 image: docker:20.10
                 command:
                 - cat
                 tty: true
+                volumeMounts:
+                - name: docker-socket
+                  mountPath: /var/run/docker.sock
               - name: node
                 image: node:14
                 command:
