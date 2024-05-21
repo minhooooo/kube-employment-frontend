@@ -44,7 +44,9 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        docker.build("${env.DOCKER_HUB_REPO}:${env.BUILD_ID}")
+                        withCredentials(string(credentialsId: 'dockerhub-repo', variable: 'DOCKER_HUB_REPO')) {
+                            docker.build("${DOCKER_HUB_REPO}:${env.BUILD_ID}")
+                        }
                     }
                 }
             }
