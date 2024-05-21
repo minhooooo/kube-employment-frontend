@@ -29,7 +29,6 @@ pipeline {
     environment {
         GIT_CREDENTIALS_ID = 'github-token'
         DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-credentials'
-        DOCKER_HUB_REPO = 'minho7336/kube-employment-frontend'
     }
     
     stages {
