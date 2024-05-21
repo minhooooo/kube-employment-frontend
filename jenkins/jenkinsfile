@@ -51,7 +51,7 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        def customImage = docker.build("kube-employment-frontend:${env.BUILD_ID}")
+                        docker.build("kube-employment-frontend:${env.BUILD_ID}")
                     }
                 }
             }
@@ -61,27 +61,10 @@ pipeline {
             steps {
                 container('docker') {
                     script {
-                        docker.image("kube-employment-frontend:${env.BUILD_ID}").inside {
-                            sh 'echo "Running tests..."'
-                            sh 'echo "image build..."'
-                        }
+                        sh 'docker run --rm kube-employment-frontend:${env.BUILD_ID} echo "Running tests..."'
                     }
                 }
                 echo 'Testing..'
-            }
-        }
-        
-        stage('Execute') {
-            steps {
-                container('docker') {
-                    script {
-                        docker.image("kube-employment-frontend:${env.BUILD_ID}").inside {
-                            sh 'echo "Executing application..."'
-                            sh 'echo "testing tests..."'
-                        }
-                    }
-                }
-                echo 'executing..'
             }
         }
     }
